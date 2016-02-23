@@ -14,7 +14,6 @@ module scenes {
         
         // Start Method
         public start(): void {    
-            
             // add the WELCOME Label to the MENU scene
             this._welcomeLabel = new objects.Label(
                 "SLOT MACHINE", 
