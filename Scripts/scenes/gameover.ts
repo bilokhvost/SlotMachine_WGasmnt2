@@ -49,7 +49,7 @@ module scenes {
         
         // START Button click event handler
         private _startOverButtonClick(event: createjs.MouseEvent) {
-            // Switch to the LEFT_CAVE Scene
+            // Switch to the SLOT MACHINE Scene
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
         }

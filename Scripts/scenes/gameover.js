@@ -32,7 +32,7 @@ var scenes;
         //EVENT HANDLERS ++++++++++++++++++++
         // START Button click event handler
         GameOver.prototype._startOverButtonClick = function (event) {
-            // Switch to the LEFT_CAVE Scene
+            // Switch to the SLOT MACHINE Scene
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
         };
