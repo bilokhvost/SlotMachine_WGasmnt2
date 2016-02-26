@@ -25,7 +25,15 @@ var assetData: objects.Asset[] = [
     { id: "Bet5Button", src: "../../Assets/images/Bet5Button.png" },
     { id: "ResetButton", src: "../../Assets/images/ResetButton.png" },
     { id: "ExitButton", src: "../../Assets/images/ExitButton.png" },
-    { id: "SpinButton", src: "../../Assets/images/SpinButton.png" }
+    { id: "SpinButton", src: "../../Assets/images/SpinButton.png" },
+    { id: "Blank", src: "../../Assets/images/Blank.png" },
+    { id: "Banana", src: "../../Assets/images/Banana.png" },
+    { id: "Grapes", src: "../../Assets/images/Grapes.png" },
+    { id: "Bell", src: "../../Assets/images/Bell.png" },
+    { id: "Orange", src: "../../Assets/images/Orange.png" },
+    { id: "Seven", src: "../../Assets/images/Seven.png" },
+      { id: "Bet", src: "../../Assets/images/Bet.png" },
+    { id: "Cherry", src: "../../Assets/images/Cherry.png" }
 ];
 
 function preload() {
@@ -112,6 +120,7 @@ function changeScene(): void {
             console.log("Starting GAME_OVER Scene");
             break;
     }
-
     console.log(currentScene.numChildren);
 }
+
+window.onload = preload;

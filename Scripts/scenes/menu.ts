@@ -20,7 +20,8 @@ module scenes {
                 "60px Consolas", 
                 "#000000", 
                 config.Screen.CENTER_X, 
-                config.Screen.CENTER_Y);
+                config.Screen.CENTER_Y,
+                true);
             this.addChild(this._welcomeLabel);
                    
             // add the START button to the MENU scene
@@ -48,7 +49,7 @@ module scenes {
         
         // START Button click event handler
         private _startButtonClick(event: createjs.MouseEvent) {
-            // Switch to the LEFT_CAVE Scene
+            // Switch to the SLOT MACHINE Scene
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
         }

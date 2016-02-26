@@ -9,11 +9,21 @@ module scenes {
         private _spinButton: objects.Button;
         private _exitButton: objects.Button;
         private _resetButton: objects.Button;
+        private _reels: createjs.Bitmap[];
+        private _jackpotText: objects.Label;
+        private _creditText: objects.Label;
+        private _betText: objects.Label;
+        private _resultText: objects.Label;
+        private playerMoney: number;
+        private winnings: number;
+        private jackpot: number;
+        private playerBet:number;
+
         private _grapes = 0;
         private _bananas = 0;
         private _oranges = 0;
         private _cherries = 0;
-        private _bars = 0;
+        private _bet = 0;
         private _bells = 0;
         private _sevens = 0;
         private _blanks = 0;
@@ -25,7 +35,10 @@ module scenes {
         // PUBLIC METHODS +++++++++++++++++++++
         
         // Start Method
-        public start(): void {   
+        public start(): void { 
+            //reset the game to initial
+            this._resetAll();
+         
             //add background image to scene 
             this._backgroundImage = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._backgroundImage);
@@ -44,9 +57,62 @@ module scenes {
             this._bet100Button.on("click", this._bet100ButtonClick, this);
             
             //add spin button
-            this._spinButton = new objects.Button("SpinButton", 257, 314, false);
+            this._spinButton = new objects.Button("SpinButton", 261, 314, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
+            
+            //add JackPot Text to the scene
+            this._jackpotText = new objects.Label(
+                this.jackpot.toString(),
+                "14 px Consolas",
+                "#ff0000",
+                353,
+                107,
+                false
+            );
+            this._jackpotText.textAlign = "right";
+            this.addChild(this._jackpotText);
+            
+            //add creditText Text to the scene
+            this._creditText = new objects.Label(
+                this.playerMoney.toString(),
+                "14 px Consolas",
+                "#ff0000",
+                254,
+                303,
+                false
+            );
+            this._creditText.textAlign = "right";
+            this.addChild(this._creditText);
+            
+            //add _betText Text to the scene
+            this._betText = new objects.Label(
+                this.playerBet.toString(),
+                "14 px Consolas",
+                "#ff0000",
+                353,
+                303,
+                false
+            );
+            this._betText.textAlign = "right";
+            this.addChild(this._betText);
+            
+            //add _resultText Text to the scene
+            this._resultText = new objects.Label(
+                this.winnings.toString(),
+                "14 px Consolas",
+                "#ff0000",
+                353,
+                303,
+                false
+            );
+            this._resultText.textAlign = "right";
+            this.addChild(this._resultText);
+            
+          
+            
+            //Initialize Array of Bitmaps
+            this._initializeBitmapArray();
             
             //add exit and reset buttons
             this._exitButton = new objects.Button("ExitButton", 413, 15, false);
@@ -56,7 +122,7 @@ module scenes {
             this._resetButton = new objects.Button("ResetButton", 182, 15, false);
             this.addChild(this._resetButton);
             this._resetButton.on("click", this._resetButtonClick, this);
-             
+            
             // add this scene to the global stage container
             stage.addChild(this);
         }
@@ -65,15 +131,23 @@ module scenes {
         public update(): void {
 
         }
+        
+        /* Utility function to reset the player stats */
+        private _resetAll() {
+            this.playerMoney = 1000;
+            this.winnings = 0;
+             this.jackpot = 5000;          
+        }
         //PRIVATE METHODS
         /* Utility function to check if a value falls within a range of bounds */
         private _checkRange(value: number, lowerBounds: number, upperBounds: number) {
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
         }
         
+        
         /* When this function is called it determines the betLine results.
 e.g. Bar - Orange - Banana */
-        private _reels(): string[] {
+        private _spinReels(): string[] {
             var betLine = [" ", " ", " "];
             var outCome = [0, 0, 0];
 
@@ -81,7 +155,7 @@ e.g. Bar - Orange - Banana */
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
                 switch (outCome[spin]) {
                     case this._checkRange(outCome[spin], 1, 27):  // 41.5% probability
-                        betLine[spin] = "blank";
+                        betLine[spin] = "Blank";
                         this._blanks++;
                         break;
                     case this._checkRange(outCome[spin], 28, 37): // 15.4% probability
@@ -101,8 +175,8 @@ e.g. Bar - Orange - Banana */
                         this._cherries++;
                         break;
                     case this._checkRange(outCome[spin], 60, 62): //  4.6% probability
-                        betLine[spin] = "Bar";
-                        this._bars++;
+                        betLine[spin] = "Bet";
+                        this._bet++;
                         break;
                     case this._checkRange(outCome[spin], 63, 64): //  3.1% probability
                         betLine[spin] = "Bell";
@@ -116,28 +190,135 @@ e.g. Bar - Orange - Banana */
             }
             return betLine;
         }
+
+        private _initializeBitmapArray() {
+            this._reels = new Array<createjs.Bitmap>();
+            for (var reel: number = 0; reel < 3; reel++) {
+                this._reels[reel] = new createjs.Bitmap(assets.getResult("Blank"));
+                this._reels[reel].x = 243 + (reel * 54);
+                this._reels[reel].y = 146;
+                this.addChild(this._reels[reel]);
+                console.log(this._reels[reel]);
+            }
+        }
+        
+        private _placeBet(playerBet:number){
+            //ensure the player's bet is less than player money
+            if (playerBet<=this.playerMoney){
+            this.playerBet += playerBet;
+            this.playerMoney-=playerBet;
+            this._creditText.text = this.playerMoney.toString();
+            this._betText.text=this.playerBet.toString();
+            }
+            
+        }
+        //calculate winnings
+       private _determineWinnings()
+{
+    if (this._blanks == 0)
+    {
+        if (this._grapes == 3) {
+           this.winnings = this.playerBet * 10;
+        }
+        else if(this._bananas == 3) {
+            this.winnings = this.playerBet * 20;
+        }
+        else if (this._oranges == 3) {
+            this.winnings = this.playerBet * 30;
+        }
+        else if (this._cherries == 3) {
+            this.winnings = this.playerBet * 40;
+        }
+        else if (this._bet == 3) {
+            this.winnings = this.playerBet * 50;
+        }
+        else if (this._bells == 3) {
+            this.winnings = this.playerBet * 75;
+        }
+        else if (this._sevens == 3) {
+            this.winnings = this.playerBet * 100;
+        }
+        else if (this._grapes == 2) {
+            this.winnings = this.playerBet * 2;
+        }
+        else if (this._bananas == 2) {
+            this.winnings = this.playerBet * 2;
+        }
+        else if (this._oranges == 2) {
+            this.winnings = this.playerBet * 3;
+        }
+        else if (this._cherries == 2) {
+            this.winnings = this.playerBet * 4;
+        }
+        else if (this._bet == 2) {
+            this.winnings = this.playerBet * 5;
+        }
+        else if (this._bells == 2) {
+            this.winnings = this.playerBet * 10;
+        }
+        else if (this._sevens == 2) {
+            this.winnings = this.playerBet * 20;
+        }
+        else if (this._sevens == 1) {
+            this.winnings = this.playerBet * 5;
+        }
+        else {
+            this.winnings = this.playerBet * 1;
+        }
+        console.log("Win!!!")
+      
+    }
+    else{
+        console.log("Loss!!!");
+    }
+    this._resultText.text=this.winnings.toString();
+    this.playerMoney+=this.winnings;
+    this._creditText.text=this.playerMoney.toString();
+    this._resetFruitTally();
+   
+    
+}
+
+private _resetFruitTally():void{
+    
+}
         
         //EVENT HANDLERS ++++++++++++++++++++
         private _bet5ButtonClick(event: createjs.MouseEvent): void {
             console.log("bet 5 credits");
+            this._placeBet(1);
+        
         }
 
         private _bet10ButtonClick(event: createjs.MouseEvent): void {
             console.log("bet 10 credits");
+            this._placeBet(0);
         }
 
         private _bet100ButtonClick(event: createjs.MouseEvent): void {
             console.log("bet 100 credits");
+            this._placeBet(100);
         }
 
         private _spinButtonClick(event: createjs.MouseEvent): void {
-            console.log("spin the reels");
-            console.log(this._reels());
+            //ensure player has enough money to play
+            if(this.playerBet>0){
+            var bitmap: string[] = this._spinReels();
+            for (var reel: number = 0; reel < 3; reel++) {
+                this._reels[reel].image = assets.getResult(bitmap[reel]);
+            }
+            //reser player bet to 0
+            this.playerBet=0;
+            this._betText.text=this.playerBet.toString();
+            }
+           
+            //  console.log(this.numChildren);
         }
 
         private _resetButtonClick(event: createjs.MouseEvent): void {
             console.log("reset the game");
-            
+           this._resetAll();
+
         }
 
         private _exitButtonClick(event: createjs.MouseEvent): void {
@@ -145,7 +326,7 @@ e.g. Bar - Orange - Banana */
             // Switch to the menu Scene
             scene = config.Scene.MENU;
             changeScene();
-        
+
         }
 
 
