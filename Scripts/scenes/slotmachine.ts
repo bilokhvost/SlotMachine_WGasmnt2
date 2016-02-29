@@ -67,53 +67,50 @@ module scenes {
             this._bet100Button.on("click", this._bet100ButtonClick, this);
             
             //add spin button
-            this._spinButton = new objects.Button("SpinButton", 265, 401, false);
+            this._spinButton = new objects.Button("SpinButton", 265, 412, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
             
             //add JackPot Text to the scene
             this._jackpotText = new objects.Label(
-                this.jackpot.toString(),
-                "14 px Consolas",
+                 this.jackpot.toString(),
+                "16px Consolas",
                 "#ff0000",
-                291,
+               350,
                 99,
-                false
-            );
+                false);
             this._jackpotText.textAlign = "right";
             this.addChild(this._jackpotText);
             
             //add creditText Text to the scene
             this._creditText = new objects.Label(
                 this.playerMoney.toString(),
-                "14 px Consolas",
+                "16px Consolas",
                 "#ff0000",
-                223,
-                247,
-                false
-            );
+                280,
+                249,
+                false);
             this._creditText.textAlign = "right";
             this.addChild(this._creditText);
             
             //add _betText Text to the scene
             this._betText = new objects.Label(
                 this.playerBet.toString(),
-                "14 px Consolas",
+                "16px Consolas",
                 "#ff0000",
-                288,
-                247,
-                false
-            );
+                348,
+                249,
+                false);
             this._betText.textAlign = "right";
             this.addChild(this._betText);
             
             //add _resultText Text to the scene
             this._resultText = new objects.Label(
                 this.winnings.toString(),
-                "14 px Consolas",
+                "16px Consolas",
                 "#ff0000",
-                355,
-                247,
+                416,
+                249,
                 false
             );
             this._resultText.textAlign = "right";
@@ -335,12 +332,11 @@ e.g. Bar - Orange - Banana */
                 for (var reel: number = 0; reel < 3; reel++) {
                     this._reels[reel].image = assets.getResult(bitmap[reel]);
                 }
+                this._determineWinnings();
                 //reser player bet to 0
                 this.playerBet = 0;
                 this._betText.text = this.playerBet.toString();
             }
-           
-            //  console.log(this.numChildren);
         }
 
         private _resetButtonClick(event: createjs.MouseEvent): void {
@@ -354,9 +350,6 @@ e.g. Bar - Orange - Banana */
             // Switch to the menu Scene
             scene = config.Scene.MENU;
             changeScene();
-
         }
-
-
     }
 }
