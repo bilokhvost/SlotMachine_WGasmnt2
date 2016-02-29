@@ -17,6 +17,7 @@ module scenes {
         private _betText: objects.Label;
         private _resultText: objects.Label;
         private playerMoney: number;
+        private winningsTotal: number;
         private winnings: number;
         private jackpot: number;
         private playerBet: number;
@@ -28,7 +29,7 @@ module scenes {
         private _diamonds = 0;
         private _hearts = 0;
         private _sevens = 0;
-        private _apples = 0;
+        private _blank = 0;
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
             super();
@@ -67,16 +68,16 @@ module scenes {
             this._bet100Button.on("click", this._bet100ButtonClick, this);
             
             //add spin button
-            this._spinButton = new objects.Button("SpinButton", 265, 412, false);
+            this._spinButton = new objects.Button("SpinButton", 270, 412, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
             
             //add JackPot Text to the scene
             this._jackpotText = new objects.Label(
-                 this.jackpot.toString(),
-                "16px Consolas",
+                this.jackpot.toString(),
+                "18px Consolas",
                 "#ff0000",
-               350,
+                350,
                 99,
                 false);
             this._jackpotText.textAlign = "right";
@@ -85,8 +86,8 @@ module scenes {
             //add creditText Text to the scene
             this._creditText = new objects.Label(
                 this.playerMoney.toString(),
-                "16px Consolas",
-                "#ff0000",
+                "18px Consolas",
+                "#ffffff",
                 280,
                 249,
                 false);
@@ -96,8 +97,8 @@ module scenes {
             //add _betText Text to the scene
             this._betText = new objects.Label(
                 this.playerBet.toString(),
-                "16px Consolas",
-                "#ff0000",
+                "18px Consolas",
+                "#ffffff",
                 348,
                 249,
                 false);
@@ -107,8 +108,8 @@ module scenes {
             //add _resultText Text to the scene
             this._resultText = new objects.Label(
                 this.winnings.toString(),
-                "16px Consolas",
-                "#ff0000",
+                "18px Consolas",
+                "#ffffff",
                 416,
                 249,
                 false
@@ -143,6 +144,7 @@ module scenes {
         private _resetAll() {
             this.playerMoney = 1000;
             this.winnings = 0;
+            this.winningsTotal = 0;
             this.jackpot = 5000;
             this.playerBet = 0;
         }
@@ -151,6 +153,15 @@ module scenes {
         private _checkRange(value: number, lowerBounds: number, upperBounds: number) {
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
         }
+
+        private _resetScreen() {
+
+            this._creditText.text = this.playerMoney.toString();
+            this._resultText.text = this.winningsTotal.toString();
+            this._jackpotText.text = this.jackpot.toString();
+            this._betText.text = this.playerBet.toString();
+        }
+        
         
         
         /* When this function is called it determines the betLine results.
@@ -163,8 +174,8 @@ e.g. Bar - Orange - Banana */
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
                 switch (outCome[spin]) {
                     case this._checkRange(outCome[spin], 1, 27):  // 41.5% probability
-                        betLine[spin] = "Apple";
-                        this._apples++;
+                        betLine[spin] = "Blank";
+                        this._blank++;
                         break;
                     case this._checkRange(outCome[spin], 28, 37): // 15.4% probability
                         betLine[spin] = "Grape";
@@ -202,7 +213,7 @@ e.g. Bar - Orange - Banana */
         
         //calculate winnings
         private _determineWinnings() {
-            if (this._apples == 0) {
+            if (this._blank == 0) {
                 if (this._grapes == 3) {
                     this.winnings = this.playerBet * 10;
                 }
@@ -256,15 +267,22 @@ e.g. Bar - Orange - Banana */
             }
             else {
                 console.log("Loss!!!");
+                if (this.playerMoney == 0) {
+                    console.log("You loose all your money!");
+                    // Switch to the Game Over Scene
+                    scene = config.Scene.GAME_OVER;
+                    changeScene();
+                }
             }
-            this._resultText.text = this.winnings.toString();
+            this.winningsTotal += this.winnings;
+            this._resultText.text = this.winningsTotal.toString();
             this.playerMoney += this.winnings;
-            if (this.winnings==0){
-                this.jackpot+=this.playerBet*2;
-                this._jackpotText.text=this.jackpot.toString();
+            if (this.winnings == 0) {
+                this.jackpot += this.playerBet * 2;
+                this._jackpotText.text = this.jackpot.toString();
             }
             this._creditText.text = this.playerMoney.toString();
-            
+            this.winnings = 0;
             this._resetFruitTally();
 
 
@@ -278,12 +296,12 @@ e.g. Bar - Orange - Banana */
             this._diamonds = 0;
             this._hearts = 0;
             this._sevens = 0;
-            this._apples = 0;
+            this._blank = 0;
         }
         private _initializeBitmapArray() {
             this._reels = new Array<createjs.Bitmap>();
             for (var reel: number = 0; reel < 3; reel++) {
-                this._reels[reel] = new createjs.Bitmap(assets.getResult("Apple"));
+                this._reels[reel] = new createjs.Bitmap(assets.getResult("Blank"));
                 this._reels[reel].x = 244 + (reel * 54);
                 this._reels[reel].y = 146;
                 this.addChild(this._reels[reel]);
@@ -299,6 +317,7 @@ e.g. Bar - Orange - Banana */
                 this._creditText.text = this.playerMoney.toString();
                 this._betText.text = this.playerBet.toString();
             }
+
 
         }
         
@@ -347,6 +366,8 @@ e.g. Bar - Orange - Banana */
         private _resetButtonClick(event: createjs.MouseEvent): void {
             console.log("reset the game");
             this._resetAll();
+            this._resetScreen();
+            this._resetFruitTally();
 
         }
 

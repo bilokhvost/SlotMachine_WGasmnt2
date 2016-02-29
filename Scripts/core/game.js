@@ -24,7 +24,7 @@ var assetData = [
     { id: "ResetButton", src: "../../Assets/images/ResetButton.png" },
     { id: "ExitButton", src: "../../Assets/images/ExitButton.png" },
     { id: "SpinButton", src: "../../Assets/images/SpinButton.png" },
-    { id: "Apple", src: "../../Assets/images/Apple.png" },
+    { id: "Blank", src: "../../Assets/images/Blank.png" },
     { id: "Heart", src: "../../Assets/images/Heart.png" },
     { id: "Grape", src: "../../Assets/images/Grapes.png" },
     { id: "Strawberry", src: "../../Assets/images/Strawberry.png" },
