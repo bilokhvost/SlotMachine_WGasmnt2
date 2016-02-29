@@ -21,6 +21,8 @@ var assetData: objects.Asset[] = [
     { id: "StartOverButton", src: "../../Assets/images/StartOverButton.png" },
     { id: "SlotMachine", src: "../../Assets/images/SlotMachine.png" },
     { id: "Bet100Button", src: "../../Assets/images/Bet100Button.png" },
+    { id: "Bet50Button", src: "../../Assets/images/Bet50Button.png" },
+    { id: "Bet25Button", src: "../../Assets/images/Bet25Button.png" },
     { id: "Bet10Button", src: "../../Assets/images/Bet10Button.png" },
     { id: "Bet5Button", src: "../../Assets/images/Bet5Button.png" },
     { id: "ResetButton", src: "../../Assets/images/ResetButton.png" },
@@ -32,7 +34,7 @@ var assetData: objects.Asset[] = [
     { id: "Bell", src: "../../Assets/images/Bell.png" },
     { id: "Orange", src: "../../Assets/images/Orange.png" },
     { id: "Seven", src: "../../Assets/images/Seven.png" },
-      { id: "Bet", src: "../../Assets/images/Bet.png" },
+    { id: "Bet", src: "../../Assets/images/Bet.png" },
     { id: "Cherry", src: "../../Assets/images/Cherry.png" }
 ];
 

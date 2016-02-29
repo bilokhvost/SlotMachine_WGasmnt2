@@ -5,6 +5,8 @@ module scenes {
         private _backgroundImage: createjs.Bitmap;
         private _bet5Button: objects.Button;
         private _bet10Button: objects.Button;
+        private _bet25Button: objects.Button;
+        private _bet50Button: objects.Button;
         private _bet100Button: objects.Button;
         private _spinButton: objects.Button;
         private _exitButton: objects.Button;
@@ -17,7 +19,7 @@ module scenes {
         private playerMoney: number;
         private winnings: number;
         private jackpot: number;
-        private playerBet:number;
+        private playerBet: number;
 
         private _grapes = 0;
         private _bananas = 0;
@@ -44,20 +46,28 @@ module scenes {
             this.addChild(this._backgroundImage);
             
             //add bet buttons to the scene
-            this._bet5Button = new objects.Button("Bet5Button", 228, 224, false);
+            this._bet5Button = new objects.Button("Bet5Button", 178, 307, false);
             this.addChild(this._bet5Button);
             this._bet5Button.on("click", this._bet5ButtonClick, this);
 
-            this._bet10Button = new objects.Button("Bet10Button", 294, 224, false);
+            this._bet10Button = new objects.Button("Bet10Button", 237, 307, false);
             this.addChild(this._bet10Button);
             this._bet10Button.on("click", this._bet10ButtonClick, this);
 
-            this._bet100Button = new objects.Button("Bet100Button", 360, 224, false);
+            this._bet25Button = new objects.Button("Bet25Button", 298, 307, false);
+            this.addChild(this._bet25Button);
+            this._bet25Button.on("click", this._bet25ButtonClick, this);
+
+            this._bet50Button = new objects.Button("Bet50Button", 357, 307, false);
+            this.addChild(this._bet50Button);
+            this._bet50Button.on("click", this._bet50ButtonClick, this);
+
+            this._bet100Button = new objects.Button("Bet100Button", 417, 307, false);
             this.addChild(this._bet100Button);
             this._bet100Button.on("click", this._bet100ButtonClick, this);
             
             //add spin button
-            this._spinButton = new objects.Button("SpinButton", 261, 314, false);
+            this._spinButton = new objects.Button("SpinButton", 265, 401, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
             
@@ -66,8 +76,8 @@ module scenes {
                 this.jackpot.toString(),
                 "14 px Consolas",
                 "#ff0000",
-                353,
-                107,
+                291,
+                99,
                 false
             );
             this._jackpotText.textAlign = "right";
@@ -78,8 +88,8 @@ module scenes {
                 this.playerMoney.toString(),
                 "14 px Consolas",
                 "#ff0000",
-                254,
-                303,
+                223,
+                247,
                 false
             );
             this._creditText.textAlign = "right";
@@ -90,8 +100,8 @@ module scenes {
                 this.playerBet.toString(),
                 "14 px Consolas",
                 "#ff0000",
-                353,
-                303,
+                288,
+                247,
                 false
             );
             this._betText.textAlign = "right";
@@ -102,8 +112,8 @@ module scenes {
                 this.winnings.toString(),
                 "14 px Consolas",
                 "#ff0000",
-                353,
-                303,
+                355,
+                247,
                 false
             );
             this._resultText.textAlign = "right";
@@ -136,7 +146,8 @@ module scenes {
         private _resetAll() {
             this.playerMoney = 1000;
             this.winnings = 0;
-             this.jackpot = 5000;          
+            this.jackpot = 5000;
+            this.playerBet = 0;
         }
         //PRIVATE METHODS
         /* Utility function to check if a value falls within a range of bounds */
@@ -191,6 +202,82 @@ e.g. Bar - Orange - Banana */
             return betLine;
         }
 
+        
+        //calculate winnings
+        private _determineWinnings() {
+            if (this._blanks == 0) {
+                if (this._grapes == 3) {
+                    this.winnings = this.playerBet * 10;
+                }
+                else if (this._bananas == 3) {
+                    this.winnings = this.playerBet * 20;
+                }
+                else if (this._oranges == 3) {
+                    this.winnings = this.playerBet * 30;
+                }
+                else if (this._cherries == 3) {
+                    this.winnings = this.playerBet * 40;
+                }
+                else if (this._bet == 3) {
+                    this.winnings = this.playerBet * 50;
+                }
+                else if (this._bells == 3) {
+                    this.winnings = this.playerBet * 75;
+                }
+                else if (this._sevens == 3) {
+                    this.winnings = this.playerBet * 100;
+                }
+                else if (this._grapes == 2) {
+                    this.winnings = this.playerBet * 2;
+                }
+                else if (this._bananas == 2) {
+                    this.winnings = this.playerBet * 2;
+                }
+                else if (this._oranges == 2) {
+                    this.winnings = this.playerBet * 3;
+                }
+                else if (this._cherries == 2) {
+                    this.winnings = this.playerBet * 4;
+                }
+                else if (this._bet == 2) {
+                    this.winnings = this.playerBet * 5;
+                }
+                else if (this._bells == 2) {
+                    this.winnings = this.playerBet * 10;
+                }
+                else if (this._sevens == 2) {
+                    this.winnings = this.playerBet * 20;
+                }
+                else if (this._sevens == 1) {
+                    this.winnings = this.playerBet * 5;
+                }
+                else {
+                    this.winnings = this.playerBet * 1;
+                }
+                console.log("Win!!!")
+
+            }
+            else {
+                console.log("Loss!!!");
+            }
+            this._resultText.text = this.winnings.toString();
+            this.playerMoney += this.winnings;
+            this._creditText.text = this.playerMoney.toString();
+            this._resetFruitTally();
+
+
+        }
+
+        private _resetFruitTally(): void {
+            this._grapes = 0;
+            this._bananas = 0;
+            this._oranges = 0;
+            this._cherries = 0;
+            this._bet = 0;
+            this._bells = 0;
+            this._sevens = 0;
+            this._blanks = 0;
+        }
         private _initializeBitmapArray() {
             this._reels = new Array<createjs.Bitmap>();
             for (var reel: number = 0; reel < 3; reel++) {
@@ -201,98 +288,39 @@ e.g. Bar - Orange - Banana */
                 console.log(this._reels[reel]);
             }
         }
-        
-        private _placeBet(playerBet:number){
-            //ensure the player's bet is less than player money
-            if (playerBet<=this.playerMoney){
-            this.playerBet += playerBet;
-            this.playerMoney-=playerBet;
-            this._creditText.text = this.playerMoney.toString();
-            this._betText.text=this.playerBet.toString();
-            }
-            
-        }
-        //calculate winnings
-       private _determineWinnings()
-{
-    if (this._blanks == 0)
-    {
-        if (this._grapes == 3) {
-           this.winnings = this.playerBet * 10;
-        }
-        else if(this._bananas == 3) {
-            this.winnings = this.playerBet * 20;
-        }
-        else if (this._oranges == 3) {
-            this.winnings = this.playerBet * 30;
-        }
-        else if (this._cherries == 3) {
-            this.winnings = this.playerBet * 40;
-        }
-        else if (this._bet == 3) {
-            this.winnings = this.playerBet * 50;
-        }
-        else if (this._bells == 3) {
-            this.winnings = this.playerBet * 75;
-        }
-        else if (this._sevens == 3) {
-            this.winnings = this.playerBet * 100;
-        }
-        else if (this._grapes == 2) {
-            this.winnings = this.playerBet * 2;
-        }
-        else if (this._bananas == 2) {
-            this.winnings = this.playerBet * 2;
-        }
-        else if (this._oranges == 2) {
-            this.winnings = this.playerBet * 3;
-        }
-        else if (this._cherries == 2) {
-            this.winnings = this.playerBet * 4;
-        }
-        else if (this._bet == 2) {
-            this.winnings = this.playerBet * 5;
-        }
-        else if (this._bells == 2) {
-            this.winnings = this.playerBet * 10;
-        }
-        else if (this._sevens == 2) {
-            this.winnings = this.playerBet * 20;
-        }
-        else if (this._sevens == 1) {
-            this.winnings = this.playerBet * 5;
-        }
-        else {
-            this.winnings = this.playerBet * 1;
-        }
-        console.log("Win!!!")
-      
-    }
-    else{
-        console.log("Loss!!!");
-    }
-    this._resultText.text=this.winnings.toString();
-    this.playerMoney+=this.winnings;
-    this._creditText.text=this.playerMoney.toString();
-    this._resetFruitTally();
-   
-    
-}
 
-private _resetFruitTally():void{
-    
-}
+        private _placeBet(playerBet: number) {
+            //ensure the player's bet is less than player money
+            if (playerBet <= this.playerMoney) {
+                this.playerBet += playerBet;
+                this.playerMoney -= playerBet;
+                this._creditText.text = this.playerMoney.toString();
+                this._betText.text = this.playerBet.toString();
+            }
+
+        }
         
         //EVENT HANDLERS ++++++++++++++++++++
         private _bet5ButtonClick(event: createjs.MouseEvent): void {
             console.log("bet 5 credits");
-            this._placeBet(1);
-        
+            this._placeBet(5);
+
         }
 
         private _bet10ButtonClick(event: createjs.MouseEvent): void {
             console.log("bet 10 credits");
-            this._placeBet(0);
+            this._placeBet(10);
+        }
+
+        private _bet25ButtonClick(event: createjs.MouseEvent): void {
+            console.log("bet 25 credits");
+            this._placeBet(25);
+
+        }
+
+        private _bet50ButtonClick(event: createjs.MouseEvent): void {
+            console.log("bet 50 credits");
+            this._placeBet(50);
         }
 
         private _bet100ButtonClick(event: createjs.MouseEvent): void {
@@ -302,14 +330,14 @@ private _resetFruitTally():void{
 
         private _spinButtonClick(event: createjs.MouseEvent): void {
             //ensure player has enough money to play
-            if(this.playerBet>0){
-            var bitmap: string[] = this._spinReels();
-            for (var reel: number = 0; reel < 3; reel++) {
-                this._reels[reel].image = assets.getResult(bitmap[reel]);
-            }
-            //reser player bet to 0
-            this.playerBet=0;
-            this._betText.text=this.playerBet.toString();
+            if (this.playerBet > 0) {
+                var bitmap: string[] = this._spinReels();
+                for (var reel: number = 0; reel < 3; reel++) {
+                    this._reels[reel].image = assets.getResult(bitmap[reel]);
+                }
+                //reser player bet to 0
+                this.playerBet = 0;
+                this._betText.text = this.playerBet.toString();
             }
            
             //  console.log(this.numChildren);
@@ -317,7 +345,7 @@ private _resetFruitTally():void{
 
         private _resetButtonClick(event: createjs.MouseEvent): void {
             console.log("reset the game");
-           this._resetAll();
+            this._resetAll();
 
         }
 

@@ -29,33 +29,39 @@ var scenes;
             this._backgroundImage = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._backgroundImage);
             //add bet buttons to the scene
-            this._bet5Button = new objects.Button("Bet5Button", 228, 224, false);
+            this._bet5Button = new objects.Button("Bet5Button", 178, 307, false);
             this.addChild(this._bet5Button);
             this._bet5Button.on("click", this._bet5ButtonClick, this);
-            this._bet10Button = new objects.Button("Bet10Button", 294, 224, false);
+            this._bet10Button = new objects.Button("Bet10Button", 237, 307, false);
             this.addChild(this._bet10Button);
             this._bet10Button.on("click", this._bet10ButtonClick, this);
-            this._bet100Button = new objects.Button("Bet100Button", 360, 224, false);
+            this._bet25Button = new objects.Button("Bet25Button", 298, 307, false);
+            this.addChild(this._bet25Button);
+            this._bet25Button.on("click", this._bet25ButtonClick, this);
+            this._bet50Button = new objects.Button("Bet50Button", 357, 307, false);
+            this.addChild(this._bet50Button);
+            this._bet50Button.on("click", this._bet50ButtonClick, this);
+            this._bet100Button = new objects.Button("Bet100Button", 417, 307, false);
             this.addChild(this._bet100Button);
             this._bet100Button.on("click", this._bet100ButtonClick, this);
             //add spin button
-            this._spinButton = new objects.Button("SpinButton", 261, 314, false);
+            this._spinButton = new objects.Button("SpinButton", 265, 401, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
             //add JackPot Text to the scene
-            this._jackpotText = new objects.Label(this.jackpot.toString(), "14 px Consolas", "#ff0000", 353, 107, false);
+            this._jackpotText = new objects.Label(this.jackpot.toString(), "14 px Consolas", "#ff0000", 291, 99, false);
             this._jackpotText.textAlign = "right";
             this.addChild(this._jackpotText);
             //add creditText Text to the scene
-            this._creditText = new objects.Label(this.playerMoney.toString(), "14 px Consolas", "#ff0000", 254, 303, false);
+            this._creditText = new objects.Label(this.playerMoney.toString(), "14 px Consolas", "#ff0000", 223, 247, false);
             this._creditText.textAlign = "right";
             this.addChild(this._creditText);
             //add _betText Text to the scene
-            this._betText = new objects.Label(this.playerBet.toString(), "14 px Consolas", "#ff0000", 353, 303, false);
+            this._betText = new objects.Label(this.playerBet.toString(), "14 px Consolas", "#ff0000", 288, 247, false);
             this._betText.textAlign = "right";
             this.addChild(this._betText);
             //add _resultText Text to the scene
-            this._resultText = new objects.Label(this.winnings.toString(), "14 px Consolas", "#ff0000", 353, 303, false);
+            this._resultText = new objects.Label(this.winnings.toString(), "14 px Consolas", "#ff0000", 355, 247, false);
             this._resultText.textAlign = "right";
             this.addChild(this._resultText);
             //Initialize Array of Bitmaps
@@ -78,6 +84,7 @@ var scenes;
             this.playerMoney = 1000;
             this.winnings = 0;
             this.jackpot = 5000;
+            this.playerBet = 0;
         };
         //PRIVATE METHODS
         /* Utility function to check if a value falls within a range of bounds */
@@ -128,6 +135,77 @@ e.g. Bar - Orange - Banana */
             }
             return betLine;
         };
+        //calculate winnings
+        SlotMachine.prototype._determineWinnings = function () {
+            if (this._blanks == 0) {
+                if (this._grapes == 3) {
+                    this.winnings = this.playerBet * 10;
+                }
+                else if (this._bananas == 3) {
+                    this.winnings = this.playerBet * 20;
+                }
+                else if (this._oranges == 3) {
+                    this.winnings = this.playerBet * 30;
+                }
+                else if (this._cherries == 3) {
+                    this.winnings = this.playerBet * 40;
+                }
+                else if (this._bet == 3) {
+                    this.winnings = this.playerBet * 50;
+                }
+                else if (this._bells == 3) {
+                    this.winnings = this.playerBet * 75;
+                }
+                else if (this._sevens == 3) {
+                    this.winnings = this.playerBet * 100;
+                }
+                else if (this._grapes == 2) {
+                    this.winnings = this.playerBet * 2;
+                }
+                else if (this._bananas == 2) {
+                    this.winnings = this.playerBet * 2;
+                }
+                else if (this._oranges == 2) {
+                    this.winnings = this.playerBet * 3;
+                }
+                else if (this._cherries == 2) {
+                    this.winnings = this.playerBet * 4;
+                }
+                else if (this._bet == 2) {
+                    this.winnings = this.playerBet * 5;
+                }
+                else if (this._bells == 2) {
+                    this.winnings = this.playerBet * 10;
+                }
+                else if (this._sevens == 2) {
+                    this.winnings = this.playerBet * 20;
+                }
+                else if (this._sevens == 1) {
+                    this.winnings = this.playerBet * 5;
+                }
+                else {
+                    this.winnings = this.playerBet * 1;
+                }
+                console.log("Win!!!");
+            }
+            else {
+                console.log("Loss!!!");
+            }
+            this._resultText.text = this.winnings.toString();
+            this.playerMoney += this.winnings;
+            this._creditText.text = this.playerMoney.toString();
+            this._resetFruitTally();
+        };
+        SlotMachine.prototype._resetFruitTally = function () {
+            this._grapes = 0;
+            this._bananas = 0;
+            this._oranges = 0;
+            this._cherries = 0;
+            this._bet = 0;
+            this._bells = 0;
+            this._sevens = 0;
+            this._blanks = 0;
+        };
         SlotMachine.prototype._initializeBitmapArray = function () {
             this._reels = new Array();
             for (var reel = 0; reel < 3; reel++) {
@@ -150,11 +228,19 @@ e.g. Bar - Orange - Banana */
         //EVENT HANDLERS ++++++++++++++++++++
         SlotMachine.prototype._bet5ButtonClick = function (event) {
             console.log("bet 5 credits");
-            this._placeBet(1);
+            this._placeBet(5);
         };
         SlotMachine.prototype._bet10ButtonClick = function (event) {
             console.log("bet 10 credits");
-            this._placeBet(0);
+            this._placeBet(10);
+        };
+        SlotMachine.prototype._bet25ButtonClick = function (event) {
+            console.log("bet 25 credits");
+            this._placeBet(25);
+        };
+        SlotMachine.prototype._bet50ButtonClick = function (event) {
+            console.log("bet 50 credits");
+            this._placeBet(50);
         };
         SlotMachine.prototype._bet100ButtonClick = function (event) {
             console.log("bet 100 credits");
@@ -167,6 +253,9 @@ e.g. Bar - Orange - Banana */
                 for (var reel = 0; reel < 3; reel++) {
                     this._reels[reel].image = assets.getResult(bitmap[reel]);
                 }
+                //reser player bet to 0
+                this.playerBet = 0;
+                this._betText.text = this.playerBet.toString();
             }
             //  console.log(this.numChildren);
         };
