@@ -22,13 +22,13 @@ module scenes {
         private playerBet: number;
 
         private _grapes = 0;
-        private _bananas = 0;
+        private _strawberries = 0;
         private _oranges = 0;
         private _cherries = 0;
-        private _bet = 0;
-        private _bells = 0;
+        private _diamonds = 0;
+        private _hearts = 0;
         private _sevens = 0;
-        private _blanks = 0;
+        private _apples = 0;
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
             super();
@@ -163,16 +163,16 @@ e.g. Bar - Orange - Banana */
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
                 switch (outCome[spin]) {
                     case this._checkRange(outCome[spin], 1, 27):  // 41.5% probability
-                        betLine[spin] = "Blank";
-                        this._blanks++;
+                        betLine[spin] = "Apple";
+                        this._apples++;
                         break;
                     case this._checkRange(outCome[spin], 28, 37): // 15.4% probability
-                        betLine[spin] = "Grapes";
+                        betLine[spin] = "Grape";
                         this._grapes++;
                         break;
                     case this._checkRange(outCome[spin], 38, 46): // 13.8% probability
-                        betLine[spin] = "Banana";
-                        this._bananas++;
+                        betLine[spin] = "Strawberry";
+                        this._strawberries++;
                         break;
                     case this._checkRange(outCome[spin], 47, 54): // 12.3% probability
                         betLine[spin] = "Orange";
@@ -183,12 +183,12 @@ e.g. Bar - Orange - Banana */
                         this._cherries++;
                         break;
                     case this._checkRange(outCome[spin], 60, 62): //  4.6% probability
-                        betLine[spin] = "Bet";
-                        this._bet++;
+                        betLine[spin] = "Diamond";
+                        this._diamonds++;
                         break;
                     case this._checkRange(outCome[spin], 63, 64): //  3.1% probability
-                        betLine[spin] = "Bell";
-                        this._bells++;
+                        betLine[spin] = "Heart";
+                        this._hearts++;
                         break;
                     case this._checkRange(outCome[spin], 65, 65): //  1.5% probability
                         betLine[spin] = "Seven";
@@ -202,11 +202,11 @@ e.g. Bar - Orange - Banana */
         
         //calculate winnings
         private _determineWinnings() {
-            if (this._blanks == 0) {
+            if (this._apples == 0) {
                 if (this._grapes == 3) {
                     this.winnings = this.playerBet * 10;
                 }
-                else if (this._bananas == 3) {
+                else if (this._strawberries == 3) {
                     this.winnings = this.playerBet * 20;
                 }
                 else if (this._oranges == 3) {
@@ -215,10 +215,10 @@ e.g. Bar - Orange - Banana */
                 else if (this._cherries == 3) {
                     this.winnings = this.playerBet * 40;
                 }
-                else if (this._bet == 3) {
+                else if (this._diamonds == 3) {
                     this.winnings = this.playerBet * 50;
                 }
-                else if (this._bells == 3) {
+                else if (this._hearts == 3) {
                     this.winnings = this.playerBet * 75;
                 }
                 else if (this._sevens == 3) {
@@ -227,7 +227,7 @@ e.g. Bar - Orange - Banana */
                 else if (this._grapes == 2) {
                     this.winnings = this.playerBet * 2;
                 }
-                else if (this._bananas == 2) {
+                else if (this._strawberries == 2) {
                     this.winnings = this.playerBet * 2;
                 }
                 else if (this._oranges == 2) {
@@ -236,10 +236,10 @@ e.g. Bar - Orange - Banana */
                 else if (this._cherries == 2) {
                     this.winnings = this.playerBet * 4;
                 }
-                else if (this._bet == 2) {
+                else if (this._diamonds == 2) {
                     this.winnings = this.playerBet * 5;
                 }
-                else if (this._bells == 2) {
+                else if (this._hearts == 2) {
                     this.winnings = this.playerBet * 10;
                 }
                 else if (this._sevens == 2) {
@@ -259,7 +259,12 @@ e.g. Bar - Orange - Banana */
             }
             this._resultText.text = this.winnings.toString();
             this.playerMoney += this.winnings;
+            if (this.winnings==0){
+                this.jackpot+=this.playerBet*2;
+                this._jackpotText.text=this.jackpot.toString();
+            }
             this._creditText.text = this.playerMoney.toString();
+            
             this._resetFruitTally();
 
 
@@ -267,19 +272,19 @@ e.g. Bar - Orange - Banana */
 
         private _resetFruitTally(): void {
             this._grapes = 0;
-            this._bananas = 0;
+            this._strawberries = 0;
             this._oranges = 0;
             this._cherries = 0;
-            this._bet = 0;
-            this._bells = 0;
+            this._diamonds = 0;
+            this._hearts = 0;
             this._sevens = 0;
-            this._blanks = 0;
+            this._apples = 0;
         }
         private _initializeBitmapArray() {
             this._reels = new Array<createjs.Bitmap>();
             for (var reel: number = 0; reel < 3; reel++) {
-                this._reels[reel] = new createjs.Bitmap(assets.getResult("Blank"));
-                this._reels[reel].x = 243 + (reel * 54);
+                this._reels[reel] = new createjs.Bitmap(assets.getResult("Apple"));
+                this._reels[reel].x = 244 + (reel * 54);
                 this._reels[reel].y = 146;
                 this.addChild(this._reels[reel]);
                 console.log(this._reels[reel]);
