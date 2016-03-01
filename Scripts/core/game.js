@@ -6,7 +6,8 @@ Description: Slot Machine Game
 Revision History:
  Commit 1: Initial Commit
  Commit 2-9: Logic was added
- Commit 10-11: Design fixes
+  Commit 10-11: Design and logic errors fixes
+ Commit 12: Added sounds
 */
 /// <reference path = "_reference.ts" />
 // global variables

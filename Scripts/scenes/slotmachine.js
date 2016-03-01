@@ -11,7 +11,8 @@ Description: Slot Machine Game
 Revision History:
  Commit 1: Initial Commit
  Commit 2-9: Logic was added
- Commit 10-11: Design fixes
+ Commit 10-11: Design and logic errors fixes
+ Commit 12: Added sounds
 */
 // MENU SCENE
 var scenes;
@@ -35,6 +36,11 @@ var scenes;
         SlotMachine.prototype.start = function () {
             //reset the game to initial
             this._resetAll();
+            //trying to add sound effects
+            createjs.Sound.registerSound({ id: "jackpotSound", src: "../../Assets/sounds/jackpot.mp3" });
+            createjs.Sound.registerSound({ id: "spinSound", src: "../../Assets/sounds/spin.mp3" });
+            createjs.Sound.registerSound({ id: "loseSound", src: "../../Assets/sounds/lose.mp3" });
+            createjs.Sound.registerSound({ id: "winSound", src: "../../Assets/sounds/win.mp3" });
             //add background image to scene 
             this._backgroundImage = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._backgroundImage);
@@ -157,59 +163,75 @@ e.g. Bar - Orange - Banana */
             if (this._blank == 0) {
                 if (this._grapes == 3) {
                     this.winnings = this.playerBet * 10;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._strawberries == 3) {
                     this.winnings = this.playerBet * 20;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._oranges == 3) {
                     this.winnings = this.playerBet * 30;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._cherries == 3) {
                     this.winnings = this.playerBet * 40;
                 }
                 else if (this._diamonds == 3) {
                     this.winnings = this.playerBet * 50 + this.jackpot;
+                    createjs.Sound.play("jackpotSound");
                     this.jackpot = 5000;
                     this._jackpotText.text = this.jackpot.toString();
                 }
                 else if (this._hearts == 3) {
                     this.winnings = this.playerBet * 75;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._sevens == 3) {
                     this.winnings = this.playerBet * 100;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._grapes == 2) {
                     this.winnings = this.playerBet * 2;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._strawberries == 2) {
                     this.winnings = this.playerBet * 2;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._oranges == 2) {
                     this.winnings = this.playerBet * 3;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._cherries == 2) {
                     this.winnings = this.playerBet * 4;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._diamonds == 2) {
                     this.winnings = this.playerBet * 5;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._hearts == 2) {
                     this.winnings = this.playerBet * 10;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._sevens == 2) {
                     this.winnings = this.playerBet * 20;
+                    createjs.Sound.play("winSound");
                 }
                 else if (this._sevens == 1) {
                     this.winnings = this.playerBet * 5;
+                    createjs.Sound.play("winSound");
                 }
                 else {
                     this.winnings = this.playerBet * 1;
+                    createjs.Sound.play("winSound");
                 }
                 console.log("Win!!!");
             }
             else {
                 console.log("Loss!!!");
                 if (this.playerMoney == 0) {
+                    createjs.Sound.play("loseSound");
                     console.log("You loose all your money!");
                     // Switch to the Game Over Scene
                     scene = config.Scene.GAME_OVER;
@@ -282,6 +304,7 @@ e.g. Bar - Orange - Banana */
         SlotMachine.prototype._spinButtonClick = function (event) {
             //ensure player has enough money to play
             if (this.playerBet > 0) {
+                createjs.Sound.play("spinSound");
                 var bitmap = this._spinReels();
                 for (var reel = 0; reel < 3; reel++) {
                     this._reels[reel].image = assets.getResult(bitmap[reel]);

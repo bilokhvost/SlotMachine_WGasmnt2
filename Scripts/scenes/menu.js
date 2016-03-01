@@ -11,7 +11,8 @@ Description: Slot Machine Game
 Revision History:
  Commit 1: Initial Commit
  Commit 2-9: Logic was added
- Commit 10-11: Design fixes
+  Commit 10-11: Design and logic errors fixes
+  Commit 12: Added sounds
 */
 // MENU SCENE
 var scenes;
@@ -34,6 +35,8 @@ var scenes;
             // add the START button to the MENU scene
             this._startButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 140, true);
             this.addChild(this._startButton);
+            //add start game sound to the scene
+            createjs.Sound.registerSound({ id: "introSound", src: "../../Assets/sounds/intro.mp3" });
             // START Button event listener
             this._startButton.on("click", this._startButtonClick, this);
             // add this scene to the global stage container
@@ -46,6 +49,7 @@ var scenes;
         // START Button click event handler
         Menu.prototype._startButtonClick = function (event) {
             // Switch to the SLOT MACHINE Scene
+            createjs.Sound.play("introSound");
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
         };
