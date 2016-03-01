@@ -1,3 +1,13 @@
+/*
+Kateryna Bilokhvost
+Last modified by:Kateryna Bilokhvost
+Last Modified date: February 29, 2016
+Description: Slot Machine Game
+Revision History:
+ Commit 1: Initial Commit
+ Commit 2-9: Logic was added
+ Commit 10-11: Design fixes
+*/
 var config;
 (function (config) {
     // Scene Constants

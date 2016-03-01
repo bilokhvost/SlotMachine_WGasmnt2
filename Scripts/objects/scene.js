@@ -3,6 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/*
+Kateryna Bilokhvost
+Last modified by:Kateryna Bilokhvost
+Last Modified date: February 29, 2016
+Description: Slot Machine Game
+Revision History:
+ Commit 1: Initial Commit
+ Commit 2-9: Logic was added
+ Commit 10-11: Design fixes
+*/
 var objects;
 (function (objects) {
     // Scene Class

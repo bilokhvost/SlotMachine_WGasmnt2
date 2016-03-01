@@ -3,6 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/*
+Kateryna Bilokhvost
+Last modified by:Kateryna Bilokhvost
+Last Modified date: February 29, 2016
+Description: Slot Machine Game
+Revision History:
+ Commit 1: Initial Commit
+ Commit 2-9: Logic was added
+ Commit 10-11: Design fixes
+*/
 // MENU SCENE
 var scenes;
 (function (scenes) {
@@ -247,6 +257,7 @@ e.g. Bar - Orange - Banana */
             }
         };
         //EVENT HANDLERS ++++++++++++++++++++
+        //placing bids
         SlotMachine.prototype._bet5ButtonClick = function (event) {
             console.log("bet 5 credits");
             this._placeBet(5);
@@ -267,6 +278,7 @@ e.g. Bar - Orange - Banana */
             console.log("bet 100 credits");
             this._placeBet(100);
         };
+        //spinning the button        
         SlotMachine.prototype._spinButtonClick = function (event) {
             //ensure player has enough money to play
             if (this.playerBet > 0) {
@@ -280,12 +292,14 @@ e.g. Bar - Orange - Banana */
                 this._betText.text = this.playerBet.toString();
             }
         };
+        //reset the game
         SlotMachine.prototype._resetButtonClick = function (event) {
             console.log("reset the game");
             this._resetAll();
             this._resetScreen();
             this._resetFruitTally();
         };
+        //exit to the Menu screenB
         SlotMachine.prototype._exitButtonClick = function (event) {
             console.log("exit the game");
             // Switch to the menu Scene
