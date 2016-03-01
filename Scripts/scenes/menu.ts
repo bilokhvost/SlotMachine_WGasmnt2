@@ -4,6 +4,7 @@ module scenes {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
         private _startButton:objects.Button;
         private _welcomeLabel:objects.Label;
+        private _canvasMenuImage: createjs.Bitmap;
         
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
@@ -13,12 +14,15 @@ module scenes {
         // PUBLIC METHODS +++++++++++++++++++++
         
         // Start Method
-        public start(): void {    
+        public start(): void { 
+             //add game over image to the screen
+            this._canvasMenuImage = new createjs.Bitmap("../../Assets/images/canvasMenu.png");
+            this.addChild(this._canvasMenuImage);  
             // add the WELCOME Label to the MENU scene
             this._welcomeLabel = new objects.Label(
                 "SLOT MACHINE", 
                 "60px Consolas", 
-                "#000000", 
+                "#FFFFFF",  
                 config.Screen.CENTER_X, 
                 config.Screen.CENTER_Y,
                 true);
@@ -28,7 +32,7 @@ module scenes {
             this._startButton = new objects.Button(
                 "StartButton",
                 config.Screen.CENTER_X,
-                config.Screen.CENTER_Y + 80, true);
+                config.Screen.CENTER_Y + 140, true);
             this.addChild(this._startButton);
             
             // START Button event listener

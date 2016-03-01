@@ -4,6 +4,7 @@ module scenes {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
         private _startOverButton:objects.Button;
         private _gameOverLabel:objects.Label;
+        private _gameOverImage: createjs.Bitmap;
         
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
@@ -14,12 +15,14 @@ module scenes {
         
         // Start Method
         public start(): void {    
-            
-            // add the WELCOME Label to the MENU scene
+            //add game over image to the screen
+            this._gameOverImage = new createjs.Bitmap("../../Assets/images/canvasGameOver.png");
+            this.addChild(this._gameOverImage);
+            // add the game over Label to the MENU scene
             this._gameOverLabel = new objects.Label(
                 "GAME OVER", 
                 "60px Consolas", 
-                "#000000", 
+                "#FFFFFF", 
                 config.Screen.CENTER_X, 
                 config.Screen.CENTER_Y,
                 true);
@@ -29,7 +32,7 @@ module scenes {
             this._startOverButton = new objects.Button(
                 "StartButton",
                 config.Screen.CENTER_X,
-                config.Screen.CENTER_Y + 80, true);
+                config.Screen.CENTER_Y  + 140, true);
             this.addChild(this._startOverButton);
             
             // START Button event listener

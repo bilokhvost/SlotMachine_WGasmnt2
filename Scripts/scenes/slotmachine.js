@@ -158,7 +158,9 @@ e.g. Bar - Orange - Banana */
                     this.winnings = this.playerBet * 40;
                 }
                 else if (this._diamonds == 3) {
-                    this.winnings = this.playerBet * 50;
+                    this.winnings = this.playerBet * 50 + this.jackpot;
+                    this.jackpot = 5000;
+                    this._jackpotText.text = this.jackpot.toString();
                 }
                 else if (this._hearts == 3) {
                     this.winnings = this.playerBet * 75;

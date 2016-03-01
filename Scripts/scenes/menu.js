@@ -15,11 +15,14 @@ var scenes;
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
         Menu.prototype.start = function () {
+            //add game over image to the screen
+            this._canvasMenuImage = new createjs.Bitmap("../../Assets/images/canvasMenu.png");
+            this.addChild(this._canvasMenuImage);
             // add the WELCOME Label to the MENU scene
-            this._welcomeLabel = new objects.Label("SLOT MACHINE", "60px Consolas", "#000000", config.Screen.CENTER_X, config.Screen.CENTER_Y, true);
+            this._welcomeLabel = new objects.Label("SLOT MACHINE", "60px Consolas", "#FFFFFF", config.Screen.CENTER_X, config.Screen.CENTER_Y, true);
             this.addChild(this._welcomeLabel);
             // add the START button to the MENU scene
-            this._startButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 80, true);
+            this._startButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 140, true);
             this.addChild(this._startButton);
             // START Button event listener
             this._startButton.on("click", this._startButtonClick, this);
