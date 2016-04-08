@@ -14,7 +14,7 @@ Revision History:
  Commit 10-11: Design and logic errors fixes
  Commit 12: Added sounds
 */
-// MENU SCENE
+// GAME SCENE
 var scenes;
 (function (scenes) {
     var SlotMachine = (function (_super) {
@@ -322,7 +322,7 @@ e.g. Bar - Orange - Banana */
             this._resetScreen();
             this._resetFruitTally();
         };
-        //exit to the Menu screenB
+        //exit to the Menu screen
         SlotMachine.prototype._exitButtonClick = function (event) {
             console.log("exit the game");
             // Switch to the menu Scene

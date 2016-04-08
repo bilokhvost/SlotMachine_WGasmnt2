@@ -54,7 +54,7 @@ module scenes {
             stage.addChild(this);
         }
 
-        // INTRO Scene updates here
+        // GAME OVER Scene updates here
         public update(): void {
 
         }

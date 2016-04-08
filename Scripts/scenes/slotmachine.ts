@@ -9,7 +9,7 @@
   Commit 10-11: Design and logic errors fixes
   Commit 12: Added sounds
  */
-// MENU SCENE
+// GAME SCENE
 module scenes {
     export class SlotMachine extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
@@ -407,7 +407,7 @@ e.g. Bar - Orange - Banana */
             this._resetFruitTally();
 
         }
-        //exit to the Menu screenB
+        //exit to the Menu screen
         private _exitButtonClick(event: createjs.MouseEvent): void {
             console.log("exit the game");
             // Switch to the menu Scene

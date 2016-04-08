@@ -40,7 +40,7 @@ var scenes;
             // add this scene to the global stage container
             stage.addChild(this);
         };
-        // INTRO Scene updates here
+        // GAME OVER Scene updates here
         GameOver.prototype.update = function () {
         };
         //EVENT HANDLERS ++++++++++++++++++++
